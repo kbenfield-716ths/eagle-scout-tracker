@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eagle Scout Tracker - Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .eagle-logo {
+            font-size: 80px;
+            margin: 20px 0;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+        }
+
+        .scout-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .scout-card {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            border-radius: 15px;
+            padding: 40px 20px;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .scout-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.4);
+        }
+
+        .scout-card h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .scout-card p {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .scout-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .info-section {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .info-section h3 {
+            color: #27ae60;
+            margin-bottom: 15px;
+        }
+
+        .info-section ul {
+            list-style-position: inside;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            .scout-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="eagle-logo">🦅</div>
+        <h1>Eagle Scout Tracker</h1>
+        <p class="subtitle">Track Your Path to Eagle Scout</p>
+
+        <div class="scout-cards">
+            <a href="liam.html" class="scout-card">
+                <div class="scout-icon">👦</div>
+                <h2>Liam's Tracker</h2>
+                <p>Click to view and update progress</p>
+            </a>
+
+            <a href="annalise.html" class="scout-card">
+                <div class="scout-icon">👧</div>
+                <h2>Annalise's Tracker</h2>
+                <p>Click to view and update progress</p>
+            </a>
+        </div>
+
+        <div class="info-section">
+            <h3>📋 Eagle Scout Requirements Overview</h3>
+            <ul>
+                <li>Be active as a Life Scout for at least 6 months</li>
+                <li>Earn 21 merit badges (14 required, 7 electives)</li>
+                <li>Complete an Eagle Scout Service Project</li>
+                <li>Participate in a Scoutmaster conference</li>
+                <li>Successfully complete Board of Review</li>
+                <li>Complete all requirements before 18th birthday</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

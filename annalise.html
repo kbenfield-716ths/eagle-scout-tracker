@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annalise's Eagle Scout Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #27ae60;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .photo-section {
+            text-align: center;
+        }
+
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #27ae60;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .upload-photo-btn {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Noto Sans', sans-serif;
+            font-size: 14px;
+        }
+
+        .upload-photo-btn:hover {
+            background: #229954;
+        }
+
+        #photo-input {
+            display: none;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #27ae60;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+
+        .age-tracker {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .age-input {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .age-input label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .age-input input {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: 'Noto Sans', sans-serif;
+        }
+
+        .age-input button {
+            padding: 8px 20px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Noto Sans', sans-serif;
+            font-weight: 600;
+        }
+
+        .age-input button:hover {
+            background: #229954;
+        }
+
+        .countdown {
+            font-size: 1.5em;
+            color: #27ae60;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .progress-section {
+            margin-bottom: 30px;
+        }
+
+        .progress-header {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 40px;
+            background: #e0e0e0;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #2ecc71 0%, #27ae60 100%);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .requirements-section {
+            margin-bottom: 30px;
+        }
+
+        .requirement-category {
+            margin-bottom: 25px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .category-header {
+            background: #27ae60;
+            color: white;
+            padding: 15px;
+            font-size: 1.2em;
+            font-weight: 700;
+        }
+
+        .requirement-item {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .requirement-item:last-child {
+            border-bottom: none;
+        }
+
+        .requirement-item input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            margin-top: 2px;
+            accent-color: #27ae60;
+        }
+
+        .requirement-content {
+            flex: 1;
+        }
+
+        .requirement-name {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .requirement-description {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .time-tracking {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+        }
+
+        .time-tracking input[type="date"],
+        .time-tracking input[type="number"] {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+            font-family: 'Noto Sans', sans-serif;
+        }
+
+        .calculated-date {
+            margin-top: 5px;
+            color: #27ae60;
+            font-weight: 700;
+        }
+
+        .merit-badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .merit-badge-card {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .merit-badge-card:hover {
+            border-color: #27ae60;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .merit-badge-card.completed {
+            border-color: #27ae60;
+            background: #e8f5e9;
+        }
+
+        .merit-badge-card label {
+            font-weight: 600;
+        }
+
+        .elective-section {
+            margin-top: 15px;
+        }
+
+        .add-elective-btn {
+            padding: 10px 20px;
+            background: #229954;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-family: 'Noto Sans', sans-serif;
+            font-weight: 600;
+        }
+
+        .add-elective-btn:hover {
+            background: #1e7e34;
+        }
+
+        @media (max-width: 768px) {
+            .age-input {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .merit-badge-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="photo-section">
+                    <div class="profile-photo" id="profile-photo" onclick="document.getElementById('photo-input').click()">
+                        👦
+                    </div>
+                    <input type="file" id="photo-input" accept="image/*" onchange="loadPhoto(event)">
+                    <button class="upload-photo-btn" onclick="document.getElementById('photo-input').click()">
+                        📷 Upload Photo
+                    </button>
+                </div>
+                <div>
+                    <h1>🦅 Annalise's Eagle Scout Tracker</h1>
+                    <a href="index.html" class="nav-link">← Back to Home</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Age Tracker -->
+        <div class="age-tracker">
+            <div class="age-input">
+                <label for="dob-annalise">Date of Birth:</label>
+                <input type="date" id="dob-annalise">
+                <button onclick="calculateAge()">Calculate</button>
+                <button onclick="saveProgress()">💾 Save Progress</button>
+                <button onclick="loadProgress()">📂 Load Progress</button>
+            </div>
+            <div class="countdown" id="countdown-annalise">
+                Enter date of birth to see countdown
+            </div>
+        </div>
+
+        <!-- Overall Progress -->
+        <div class="progress-section">
+            <div class="progress-header">Overall Progress to Eagle Scout</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="overall-progress" style="width: 0%">0%</div>
+            </div>
+        </div>
+
+        <!-- Rank Requirements -->
+        <div class="requirements-section">
+            <div class="requirement-category">
+                <div class="category-header">Rank Requirements</div>
+                <div class="requirement-item">
+                    <input type="checkbox" id="life-6months" onchange="updateProgress()">
+                    <div class="requirement-content">
+                        <div class="requirement-name">Be Active as Life Scout for 6 Months</div>
+                        <div class="requirement-description">Must be registered and active in your troop for at least 6 months as a Life Scout</div>
+                        <div class="time-tracking">
+                            <label>Life Scout Date: <input type="date" id="life-date" onchange="calculateLifeEnd()"></label>
+                            <div class="calculated-date" id="life-end"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="requirement-item">
+                    <input type="checkbox" id="scout-oath" onchange="updateProgress()">
+                    <div class="requirement-content">
+                        <div class="requirement-name">Live by Scout Oath & Law</div>
+                        <div class="requirement-description">Demonstrate living by the principles of Scout Oath and Law and tell how you've done your duty to God</div>
+                    </div>
+                </div>
+                <div class="requirement-item">
+                    <input type="checkbox" id="references" onchange="updateProgress()">
+                    <div class="requirement-content">
+                        <div class="requirement-name">Provide References</div>
+                        <div class="requirement-description">List names of 4 individuals willing to provide recommendations (parents, religious, educational, employer, 2 others)</div>
+                    </div>
+                </div>
+                <div class="requirement-item">
+                    <input type="checkbox" id="service-project" onchange="updateProgress()">
+                    <div class="requirement-content">
+                        <div class="requirement-name">Eagle Scout Service Project</div>
+                        <div class="requirement-description">Plan, develop, and give leadership to others in a service project (must be approved before starting)</div>
+                    </div>
+                </div>
+                <div class="requirement-item">
+                    <input type="checkbox" id="scoutmaster-conf" onchange="updateProgress()">
+                    <div class="requirement-content">
+                        <div class="requirement-name">Scoutmaster Conference</div>
+                        <div class="requirement-description">Participate in a Scoutmaster conference while a Life Scout</div>
+                    </div>
+                </div>
+                <div class="requirement-item">
+                    <input type="checkbox" id="board-review" onchange="updateProgress()">
+                    <div class="requirement-content">
+                        <div class="requirement-name">Board of Review</div>
+                        <div class="requirement-description">Successfully complete your board of review for Eagle Scout rank</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Required Merit Badges with Time Requirements -->
+            <div class="requirement-category">
+                <div class="category-header">Required Merit Badges with Time Requirements</div>
+                
+                <div class="requirement-item">
+                    <input type="checkbox" id="mb-personal-fitness" onchange="updateProgress()">
+                    <div class="requirement-content">
+                        <div class="requirement-name">Personal Fitness (12 weeks)</div>
+                        <div class="requirement-description">Complete a 12-week physical fitness program with regular testing</div>
+                        <div class="time-tracking">
+                            <label>Start Date: <input type="date" id="pf-start" onchange="calculateEnd('pf', 84)"></label>
+                            <div class="calculated-date" id="pf-end"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="requirement-item">
+                    <input type="checkbox" id="mb-family-life" onchange="updateProgress()">
+                    <div class="requirement-content">
+                        <div class="requirement-name">Family Life (90 days)</div>
+                        <div class="requirement-description">Complete home duties/chores for 90 days and keep a record</div>
+                        <div class="time-tracking">
+                            <label>Start Date: <input type="date" id="fl-start" onchange="calculateEnd('fl', 90)"></label>
+                            <div class="calculated-date" id="fl-end"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="requirement-item">
+                    <input type="checkbox" id="mb-camping" onchange="updateProgress()">
+                    <div class="requirement-content">
+                        <div class="requirement-name">Camping (20 nights)</div>
+                        <div class="requirement-description">Camp for at least 20 nights at designated Scouting activities (track nights camped)</div>
+                        <div class="time-tracking">
+                            <label>Nights Camped: <input type="number" id="camping-nights" min="0" max="20" value="0" onchange="updateCampingProgress()"> / 20</label>
+                            <div class="calculated-date" id="camping-progress"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- All Required Merit Badges -->
+            <div class="requirement-category">
+                <div class="category-header">Required Merit Badges (14 total)</div>
+                <div class="merit-badge-grid">
+                    <div class="merit-badge-card">
+                        <input type="checkbox" id="mb-first-aid" onchange="updateProgress()">
+                        <label for="mb-first-aid"> First Aid</label>
+                    </div>
+                    <div class="merit-badge-card">
+                        <input type="checkbox" id="mb-citizenship-community" onchange="updateProgress()">
+                        <label for="mb-citizenship-community"> Citizenship in Community</label>
+                    </div>
+                    <div class="merit-badge-card">
+                        <input type="checkbox" id="mb-citizenship-nation" onchange="updateProgress()">
+                        <label for="mb-citizenship-nation"> Citizenship in Nation</label>
+                    </div>
+                    <div class="merit-badge-card">
+                        <input type="checkbox" id="mb-citizenship-society" onchange="updateProgress()">
+                        <label for="mb-citizenship-society"> Citizenship in Society</label>
+                    </div>
+                    <div class="merit-badge-card">
+                        <input type="checkbox" id="mb-citizenship-world" onchange="updateProgress()">
+                        <label for="mb-citizenship-world"> Citizenship in World</label>
+                    </div>
+                    <div class="merit-badge-card">
+                        <input type="checkbox" id="mb-communication" onchange="updateProgress()">
+                        <label for="mb-communication"> Communication</label>
+                    </div>
+                    <div class="merit-badge-card">
+                        <input type="checkbox" id="mb-cooking" onchange="updateProgress()">
+                        <label for="mb-cooking"> Cooking</label>
+                    </div>
+                    <div class="merit-badge-card">
+                        <input type="checkbox" id="mb-emergency-lifesaving" onchange="updateProgress()">
+                        <label for="mb-emergency-lifesaving"> Emergency Prep OR Lifesaving</label>
+                    </div>
+                    <div class="merit-badge-card">
+                        <input type="checkbox" id="mb-environmental-sustainability" onchange="updateProgress()">
+                        <label for="mb-environmental-sustainability"> Environmental Science OR Sustainability</label>
+                    </div>
+                    <div class="merit-badge-card">
+                        <input type="checkbox" id="mb-personal-mgmt" onchange="updateProgress()">
+                        <label for="mb-personal-mgmt"> Personal Management</label>
+                    </div>
+                    <div class="merit-badge-card">
+                        <input type="checkbox" id="mb-swim-hike-cycle" onchange="updateProgress()">
+                        <label for="mb-swim-hike-cycle"> Swimming OR Hiking OR Cycling</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elective Merit Badges -->
+            <div class="requirement-category">
+                <div class="category-header">Elective Merit Badges (7 needed for total of 21)</div>
+                <div id="elective-badges" class="merit-badge-grid">
+                    <!-- Electives will be added here -->
+                </div>
+                <button class="add-elective-btn" onclick="addElective()">+ Add Elective Merit Badge</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let electiveCount = 0;
+
+        function loadPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const photoDiv = document.getElementById('profile-photo');
+                    photoDiv.innerHTML = `<img src="${e.target.result}" alt="Annalise's Photo">`;
+                    // Save photo to localStorage
+                    localStorage.setItem('annalisePhoto', e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function calculateAge() {
+            const dob = document.getElementById('dob-annalise').value;
+            if (!dob) {
+                alert('Please enter date of birth');
+                return;
+            }
+
+            const birthDate = new Date(dob);
+            const eighteenth = new Date(birthDate);
+            eighteenth.setFullYear(birthDate.getFullYear() + 18);
+            
+            const today = new Date();
+            const diffTime = eighteenth - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            const countdownEl = document.getElementById('countdown-annalise');
+            if (diffDays > 0) {
+                countdownEl.textContent = `${diffDays} days until 18th birthday (${eighteenth.toLocaleDateString()})`;
+                countdownEl.style.color = '#27ae60';
+            } else {
+                countdownEl.textContent = '18th birthday has passed';
+                countdownEl.style.color = '#e74c3c';
+            }
+        }
+
+        function calculateEnd(prefix, days) {
+            const startDate = document.getElementById(`${prefix}-start`).value;
+            if (!startDate) return;
+
+            const start = new Date(startDate);
+            const end = new Date(start);
+            end.setDate(start.getDate() + days);
+
+            document.getElementById(`${prefix}-end`).textContent = 
+                `End Date: ${end.toLocaleDateString()} (${days} days from start)`;
+        }
+
+        function calculateLifeEnd() {
+            const lifeDate = document.getElementById('life-date').value;
+            if (!lifeDate) return;
+
+            const start = new Date(lifeDate);
+            const end = new Date(start);
+            end.setMonth(start.getMonth() + 6);
+
+            document.getElementById('life-end').textContent = 
+                `Eligible for Eagle: ${end.toLocaleDateString()} (6 months from Life rank)`;
+        }
+
+        function updateCampingProgress() {
+            const nights = parseInt(document.getElementById('camping-nights').value) || 0;
+            const progressEl = document.getElementById('camping-progress');
+            progressEl.textContent = `Progress: ${nights} / 20 nights (${Math.round(nights/20*100)}% complete)`;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            let totalItems = 0;
+            let completedItems = 0;
+
+            // Count rank requirements
+            const rankCheckboxes = ['life-6months', 'scout-oath', 'references', 'service-project', 'scoutmaster-conf', 'board-review'];
+            rankCheckboxes.forEach(id => {
+                totalItems++;
+                if (document.getElementById(id).checked) completedItems++;
+            });
+
+            // Count required merit badges (14)
+            const requiredMBs = [
+                'mb-personal-fitness', 'mb-family-life', 'mb-camping',
+                'mb-first-aid', 'mb-citizenship-community', 'mb-citizenship-nation',
+                'mb-citizenship-society', 'mb-citizenship-world', 'mb-communication',
+                'mb-cooking', 'mb-emergency-lifesaving', 'mb-environmental-sustainability',
+                'mb-personal-mgmt', 'mb-swim-hike-cycle'
+            ];
+            requiredMBs.forEach(id => {
+                totalItems++;
+                if (document.getElementById(id).checked) completedItems++;
+            });
+
+            // Count elective merit badges (need 7)
+            const electiveCheckboxes = document.querySelectorAll('#elective-badges input[type="checkbox"]');
+            electiveCheckboxes.forEach(checkbox => {
+                totalItems++;
+                if (checkbox.checked) completedItems++;
+            });
+
+            // Add placeholder items for remaining electives needed
+            const electivesNeeded = Math.max(0, 7 - electiveCheckboxes.length);
+            totalItems += electivesNeeded;
+
+            const percentage = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+            const progressBar = document.getElementById('overall-progress');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = percentage + '%';
+
+            // Update merit badge cards
+            document.querySelectorAll('.merit-badge-card').forEach(card => {
+                const checkbox = card.querySelector('input[type="checkbox"]');
+                if (checkbox && checkbox.checked) {
+                    card.classList.add('completed');
+                } else {
+                    card.classList.remove('completed');
+                }
+            });
+        }
+
+        function addElective() {
+            electiveCount++;
+            const electivesDiv = document.getElementById('elective-badges');
+            const newElective = document.createElement('div');
+            newElective.className = 'merit-badge-card';
+            newElective.innerHTML = `
+                <input type="checkbox" id="elective-${electiveCount}" onchange="updateProgress()">
+                <input type="text" placeholder="Badge name" id="elective-name-${electiveCount}" style="width: 100%; margin-top: 5px; padding: 5px; font-family: 'Noto Sans', sans-serif;">
+            `;
+            electivesDiv.appendChild(newElective);
+            updateProgress();
+        }
+
+        function saveProgress() {
+            const data = {
+                dob: document.getElementById('dob-annalise').value,
+                photo: localStorage.getItem('annalisePhoto'),
+                checkboxes: {},
+                dates: {
+                    life: document.getElementById('life-date').value,
+                    pfStart: document.getElementById('pf-start').value,
+                    flStart: document.getElementById('fl-start').value,
+                    campingNights: document.getElementById('camping-nights').value
+                },
+                electives: []
+            };
+
+            // Save all checkbox states
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                data.checkboxes[cb.id] = cb.checked;
+            });
+
+            // Save elective names
+            for (let i = 1; i <= electiveCount; i++) {
+                const nameInput = document.getElementById(`elective-name-${i}`);
+                if (nameInput) {
+                    data.electives.push(nameInput.value);
+                }
+            }
+
+            localStorage.setItem('eagleTrackerAnnalise', JSON.stringify(data));
+            alert('Progress saved!');
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('eagleTrackerAnnalise');
+            if (!saved) {
+                alert('No saved progress found');
+                return;
+            }
+
+            const data = JSON.parse(saved);
+            
+            // Load photo
+            const savedPhoto = localStorage.getItem('annalisePhoto');
+            if (savedPhoto) {
+                const photoDiv = document.getElementById('profile-photo');
+                photoDiv.innerHTML = `<img src="${savedPhoto}" alt="Annalise's Photo">`;
+            }
+
+            // Load dates
+            document.getElementById('dob-annalise').value = data.dob || '';
+            document.getElementById('life-date').value = data.dates.life || '';
+            document.getElementById('pf-start').value = data.dates.pfStart || '';
+            document.getElementById('fl-start').value = data.dates.flStart || '';
+            document.getElementById('camping-nights').value = data.dates.campingNights || 0;
+
+            // Load checkboxes
+            Object.keys(data.checkboxes).forEach(id => {
+                const checkbox = document.getElementById(id);
+                if (checkbox) checkbox.checked = data.checkboxes[id];
+            });
+
+            // Load electives
+            data.electives.forEach((name, index) => {
+                if (index >= electiveCount) {
+                    addElective();
+                }
+                const nameInput = document.getElementById(`elective-name-${index + 1}`);
+                if (nameInput) nameInput.value = name;
+            });
+
+            // Recalculate everything
+            calculateAge();
+            calculateLifeEnd();
+            calculateEnd('pf', 84);
+            calculateEnd('fl', 90);
+            updateCampingProgress();
+            updateProgress();
+
+            alert('Progress loaded!');
+        }
+
+        // Initialize
+        window.addEventListener('load', function() {
+            // Load saved photo on page load
+            const savedPhoto = localStorage.getItem('annalisePhoto');
+            if (savedPhoto) {
+                const photoDiv = document.getElementById('profile-photo');
+                photoDiv.innerHTML = `<img src="${savedPhoto}" alt="Annalise's Photo">`;
+            }
+            updateProgress();
+        });
+
+        // Auto-save every 30 seconds
+        setInterval(() => {
+            const dob = document.getElementById('dob-annalise').value;
+            if (dob) saveProgress();
+        }, 30000);
+    </script>
+</body>
+</html>
